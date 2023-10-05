@@ -9,5 +9,19 @@
         android:id="@+id/navigation_home"
         android:name="com.ufam.thaise.medbox.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_add_medicine"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:destination="@id/add_medicine" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_medicine"
+        android:name="com.ufam.thaise.medbox.ui.home.AddMedicineFragment"
+        android:label="Add"
+        tools:layout="@layout/fragment_add_medicine"
+        />
 </navigation>

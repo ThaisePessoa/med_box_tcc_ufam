@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ufam.thaise.medbox.R
-import com.ufam.thaise.medbox.databinding.FragmentHomeBinding
+import com.ufam.thaise.medbox.databinding.FragmentAddMedicineBinding
 
-class HomeFragment : Fragment() {
+class AddMedicineFragment:Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentAddMedicineBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,22 +27,25 @@ class HomeFragment : Fragment() {
         val homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentAddMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         homeViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
         }
+
         configLayoutClick()
         return root
     }
 
     private fun configLayoutClick() {
-        binding.cardButtonAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_add_medicine)
-        }
-        binding.cardButtonList.setOnClickListener {
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow)
+        binding.toolbar.title = getString(R.string.adicionar_medicamento_add)
+        binding.toolbar.setTitleTextColor(resources.getColor(R.color.white))
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
