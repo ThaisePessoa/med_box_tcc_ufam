@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -39,7 +40,17 @@ android {
 }
 
 dependencies {
+        // Dependência para o Room
+        implementation ("androidx.room:room-runtime:2.4.0") // Verifique a versão mais recente
 
+        // Dependência para o Kotlin coroutines
+        implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0" )// Verifique a versão mais recente
+
+        // Kapt é necessário para processamento de anotações Room
+        kapt ("androidx.room:room-compiler:2.4.0") // Verifique a versão mais recente
+
+//Lottie Airbnb
+    implementation ("com.airbnb.android:lottie:4.2.2")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")

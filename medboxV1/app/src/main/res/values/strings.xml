@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">medboxV1</string>
+    <string name="app_name">MedBox</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="bem_vindo">Bem Vindo</string>
+    <string name="adicionar_medicamento">Adicionar\nMedicamento</string>
+    <string name="listar_medicamento">Listar\nMedicamento</string>
 </resources>
