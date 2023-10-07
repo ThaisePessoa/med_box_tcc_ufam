@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ufam.thaise.medbox.ui.home.HomeFragment"
+        android:name="com.ufam.thaise.medbox.view.fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/add_medicine"
-        android:name="com.ufam.thaise.medbox.ui.home.AddMedicineFragment"
+        android:name="com.ufam.thaise.medbox.view.fragment.AddMedicineFragment"
         android:label="Add"
         tools:layout="@layout/fragment_add_medicine"
         />

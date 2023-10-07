@@ -1,8 +1,9 @@
-package com.ufam.thaise.medbox
+package com.ufam.thaise.medbox.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.ufam.thaise.medbox.R
 import com.ufam.thaise.medbox.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

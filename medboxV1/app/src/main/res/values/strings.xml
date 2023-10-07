@@ -8,4 +8,6 @@
     <string name="adicionar_medicamento_add">Adicionar Medicamento</string>
     <string name="listar_medicamento">Listar\nMedicamento</string>
     <string name="nome_do_medicamento">Nome do medicamento</string>
+    <string name="quantidade">Quantidade:</string>
+    <string name="salvar">Salvar</string>
 </resources>
