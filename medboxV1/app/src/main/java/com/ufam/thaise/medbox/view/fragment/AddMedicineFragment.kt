@@ -15,8 +15,9 @@ import com.ufam.thaise.medbox.databinding.FragmentAddMedicineBinding
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.viewmodel.AddMedicineViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
-class AddMedicineFragment:Fragment() {
+class AddMedicineFragment : Fragment() {
 
     private val mViewModel: AddMedicineViewModel by viewModels()
     private var _binding: FragmentAddMedicineBinding? = null
@@ -31,13 +32,13 @@ class AddMedicineFragment:Fragment() {
 //        mViewModel = ViewModelProvider(this).get(AddMedicineViewModel::class.java)
         _binding = FragmentAddMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        mViewModel.toastMensage.observe(viewLifecycleOwner) {mensage->
+        mViewModel.toastMensage.observe(viewLifecycleOwner) { mensage ->
             mensage?.let {
-                Toast.makeText(requireContext(),mensage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
                 mViewModel.handleToastMensage(null)
             }
         }
-        mViewModel.numberAmount.observe(viewLifecycleOwner ){ number->
+        mViewModel.numberAmount.observe(viewLifecycleOwner) { number ->
             number?.let {
                 binding.txtNumberAmount.text = number
             }
@@ -65,17 +66,18 @@ class AddMedicineFragment:Fragment() {
             val txtNumber = binding.txtNumberAmount.text.toString().toInt()
             mViewModel.handleTxtAmountminus(txtNumber)
         }
-        binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener {
             val txtNumber = binding.txtNumberAmount.text.toString().toInt()
-            mViewModel.handleTxtAmountAdd (txtNumber)
+            mViewModel.handleTxtAmountAdd(txtNumber)
         }
     }
 
     private fun handleBtnSave() {
         val dataSave = DataMedBox(
-                name = binding.fieldMedicamento.text.toString(),
-                amount = binding.txtNumberAmount.text.toString())
-       mViewModel.handleSave(dataSave)
+            name = binding.fieldMedicamento.text.toString(),
+            amount = binding.txtNumberAmount.text.toString()
+        )
+        mViewModel.handleSave(dataSave)
     }
 
     private fun onClickToolbar() {

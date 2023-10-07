@@ -52,11 +52,11 @@ dependencies {
 
     // Kapt é necessário para processamento de anotações Room
     kapt("androidx.room:room-compiler:2.5.2") // Verifique a versão mais recente
-    implementation("com.google.dagger:hilt-android:2.40.5")
-    kapt ("com.google.dagger:hilt-compiler:2.40.5")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt ("com.google.dagger:hilt-compiler:2.48")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 
 
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
 //Lottie Airbnb
     implementation("com.airbnb.android:lottie:6.1.0")
     implementation("androidx.core:core-ktx:1.12.0")

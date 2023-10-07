@@ -3,7 +3,9 @@ package com.ufam.thaise.medbox.view.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ufam.thaise.medbox.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
