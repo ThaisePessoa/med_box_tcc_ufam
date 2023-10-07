@@ -6,21 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ufam.thaise.medbox.R
 import com.ufam.thaise.medbox.databinding.FragmentAddMedicineBinding
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.viewmodel.AddMedicineViewModel
-
+import dagger.hilt.android.AndroidEntryPoint
+@AndroidEntryPoint
 class AddMedicineFragment:Fragment() {
 
-    lateinit var mViewModel: AddMedicineViewModel
+    private val mViewModel: AddMedicineViewModel by viewModels()
     private var _binding: FragmentAddMedicineBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -28,7 +27,8 @@ class AddMedicineFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mViewModel = ViewModelProvider(this).get(AddMedicineViewModel::class.java)
+
+//        mViewModel = ViewModelProvider(this).get(AddMedicineViewModel::class.java)
         _binding = FragmentAddMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
         mViewModel.toastMensage.observe(viewLifecycleOwner) {mensage->
@@ -78,15 +78,11 @@ class AddMedicineFragment:Fragment() {
        mViewModel.handleSave(dataSave)
     }
 
-
-
-
-
     private fun onClickToolbar() {
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow)
         binding.toolbar.title = getString(R.string.adicionar_medicamento_add)
-        binding.toolbar.setTitleTextColor(resources.getColor(R.color.white))
+        binding.toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -96,5 +92,7 @@ class AddMedicineFragment:Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mViewModel.toastMensage.removeObservers(viewLifecycleOwner)
+        mViewModel.numberAmount.removeObservers(viewLifecycleOwner)
     }
 }

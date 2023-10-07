@@ -1,12 +1,16 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("org.jetbrains.kotlin.kapt")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+}
+kapt {
+    correctErrorTypes = true
 }
 
 android {
     namespace = "com.ufam.thaise.medbox"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.ufam.thaise.medbox"
@@ -40,25 +44,29 @@ android {
 }
 
 dependencies {
-        // Dependência para o Room
-        implementation ("androidx.room:room-runtime:2.4.0") // Verifique a versão mais recente
+    // Dependência para o Room
+    implementation("androidx.room:room-runtime:2.5.2") // Verifique a versão mais recente
 
-        // Dependência para o Kotlin coroutines
-        implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0" )// Verifique a versão mais recente
+    // Dependência para o Kotlin coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")// Verifique a versão mais recente
 
-        // Kapt é necessário para processamento de anotações Room
-        kapt ("androidx.room:room-compiler:2.4.0") // Verifique a versão mais recente
+    // Kapt é necessário para processamento de anotações Room
+    kapt("androidx.room:room-compiler:2.5.2") // Verifique a versão mais recente
+    implementation("com.google.dagger:hilt-android:2.40.5")
+    kapt ("com.google.dagger:hilt-compiler:2.40.5")
 
+
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
 //Lottie Airbnb
-    implementation ("com.airbnb.android:lottie:4.2.2")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

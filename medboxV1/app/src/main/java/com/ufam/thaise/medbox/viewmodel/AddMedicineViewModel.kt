@@ -2,13 +2,16 @@ package com.ufam.thaise.medbox.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ufam.thaise.medbox.model.entity.DataMedBox
-import com.ufam.thaise.medbox.repository.MedBoxRepository
+import com.ufam.thaise.medbox.repository.MedBoxRepositoryInterface
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddMedicineViewModel : ViewModel() {
-    val repository = MedBoxRepository
+class AddMedicineViewModel @Inject constructor (private val repository: MedBoxRepositoryInterface): ViewModel() {
     val toastMensage = MutableLiveData<String?>()
     val numberAmount = MutableLiveData<String?>()
+
     init {
         toastMensage.value = null
         numberAmount.value =null
@@ -34,7 +37,9 @@ class AddMedicineViewModel : ViewModel() {
     fun handleSave(dataSave: DataMedBox) {
         dataSave.apply {
             if (!name.isNullOrEmpty() && amount != "0"){
-                repository.save(dataSave)
+                viewModelScope.launch {
+                    repository.save(dataSave)
+                }
             }else{
                 if (name.isNullOrEmpty()){
                     handleToastMensage("Preencha o nome")
