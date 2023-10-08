@@ -1,6 +1,5 @@
 package com.ufam.thaise.medbox.model.banco
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,12 +9,13 @@ import com.ufam.thaise.medbox.model.entity.DataMedBox
 
 @Dao
 interface DadosDao {
-    //    Dados User
     @Query("SELECT * FROM DataMedBox WHERE id = :id")
     fun getMedBoxId(id: Long): DataMedBox?
 
     @Query("SELECT * FROM DataMedBox")
-    fun getFromMedBox(): LiveData< List<DataMedBox>>
+    fun getAll(): List<DataMedBox>
+    @Query("DELETE FROM DataMedBox")
+    fun deleteAll()
 
     @Insert
     fun saveMedBox(vararg dadosUser: DataMedBox)

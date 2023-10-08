@@ -17,11 +17,23 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:destination="@id/add_medicine" />
+        <action
+            android:id="@+id/action_navigation_home_to_list_medicine"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:destination="@id/list_medicine" />
     </fragment>
     <fragment
         android:id="@+id/add_medicine"
         android:name="com.ufam.thaise.medbox.view.fragment.AddMedicineFragment"
-        android:label="Add"
+        android:label="add_medbox"
         tools:layout="@layout/fragment_add_medicine"
         />
+    <fragment
+        android:id="@+id/list_medicine"
+        android:name="com.ufam.thaise.medbox.view.fragment.ListMedicineFragment"
+        android:label="list_medbox"
+        tools:layout="@layout/fragment_list_medicine"/>
 </navigation>

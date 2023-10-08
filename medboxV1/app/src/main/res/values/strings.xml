@@ -6,6 +6,7 @@
     <string name="bem_vindo">Bem Vindo</string>
     <string name="adicionar_medicamento">Adicionar\nMedicamento</string>
     <string name="adicionar_medicamento_add">Adicionar Medicamento</string>
+    <string name="adicionar_medicamento_list">Listar Medicamento</string>
     <string name="listar_medicamento">Listar\nMedicamento</string>
     <string name="nome_do_medicamento">Nome do medicamento</string>
     <string name="quantidade">Quantidade:</string>
