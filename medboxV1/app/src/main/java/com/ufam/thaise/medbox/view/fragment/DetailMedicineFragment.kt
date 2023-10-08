@@ -1,6 +1,5 @@
 package com.ufam.thaise.medbox.view.fragment
 
-import ListMedicineAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,20 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ufam.thaise.medbox.Constant.data
 import com.ufam.thaise.medbox.R
-import com.ufam.thaise.medbox.databinding.FragmentListMedicineBinding
-import com.ufam.thaise.medbox.model.entity.DataMedBox
+import com.ufam.thaise.medbox.databinding.FragmentDetailMedicineBinding
 import com.ufam.thaise.medbox.viewmodel.MedBoxViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ListMedicineFragment:Fragment() {
-    private lateinit var adapterMedBox:ListMedicineAdapter
+class DetailMedicineFragment : Fragment() {
     private val mViewModel: MedBoxViewModel by viewModels()
-    private var _binding: FragmentListMedicineBinding? = null
+    private var _binding: FragmentDetailMedicineBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -33,12 +29,46 @@ class ListMedicineFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListMedicineBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        adapterMedBox = ListMedicineAdapter(::onClick)
         onConfigLayout()
         return root
     }
+
+
+    private fun onConfigLayout() {
+        binding.txtMediceDetail.text = data.name
+        binding.txtRemaining.text = getString(R.string.restante, data.amount)
+        onConfigLiveDataViewModel()
+        onClickToolbar()
+        onClickOpenMedBox()
+        onClickEdit()
+        onClickDelete()
+    }
+
+    private fun onClickOpenMedBox() {
+        binding.layoutMedicineCard.itemLayoutBackgroud.setBackgroundResource(R.color.primary)
+        binding.layoutMedicineCard.txtName.text = getString(R.string.open_medbox)
+        binding.layoutMedicineCard.cardButtonMedbox.setOnClickListener {
+
+        }
+
+    }
+
+    private fun onClickEdit() {
+        binding.cardButtonEdit.setOnClickListener {
+
+        }
+    }
+
+    private fun onClickDelete() {
+        binding.cardButtonDelete.setOnClickListener {
+            lifecycleScope.launch {
+                mViewModel.deleteMedBox(data)
+            }
+        }
+    }
+
     private fun onConfigLiveDataViewModel() {
         mViewModel.toastMensage.observe(viewLifecycleOwner) { mensage ->
             mensage?.let {
@@ -46,43 +76,21 @@ class ListMedicineFragment:Fragment() {
                 mViewModel.toastMensageMedBox(null)
             }
         }
-        mViewModel.toCheckList.observe(viewLifecycleOwner) { disable ->
-            disable?.let {
-                if (disable){
-                   findNavController().popBackStack()
-                }
+        mViewModel.deleteSuccess.observe(viewLifecycleOwner) { mensage ->
+            mensage?.let {
+                Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
+                mViewModel.toastMensageMedBox(null)
+                findNavController().popBackStack()
             }
         }
-    }
-    private fun onClick(dataMedBox: DataMedBox) {
-        data = dataMedBox
-        findNavController().navigate(R.id.action_list_medicine_to_detail_medicine)
+
     }
 
-    private fun onConfigLayout() {
-        toCheckList()
-        onClickToolbar()
-        handleConfigAdapter()
-        onConfigLiveDataViewModel()
-    }
 
-    private fun toCheckList() {
-        lifecycleScope.launch {
-            mViewModel.toCheckListVoid()
-        }
-    }
-
-    private fun handleConfigAdapter() {
-        lifecycleScope.launch {
-            adapterMedBox.insertItems(mViewModel.getAllMedBox())
-        }
-        binding.rvMedBox.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvMedBox.adapter = adapterMedBox
-    }
     private fun onClickToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow)
-        binding.toolbar.title = getString(R.string.adicionar_medicamento_list)
+        binding.toolbar.title = getString(R.string.adicionar_medicamento_detail)
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -92,6 +100,7 @@ class ListMedicineFragment:Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mViewModel.deleteSuccess.removeObservers(viewLifecycleOwner)
         mViewModel.toastMensage.removeObservers(viewLifecycleOwner)
     }
 }

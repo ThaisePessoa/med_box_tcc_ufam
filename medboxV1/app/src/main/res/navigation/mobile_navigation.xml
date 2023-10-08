@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ufam.thaise.medbox.view.fragment.HomeFragment"
+        android:name="com.ufam.thaise.medbox.view.fragment.HomeMedicineFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -35,5 +35,19 @@
         android:id="@+id/list_medicine"
         android:name="com.ufam.thaise.medbox.view.fragment.ListMedicineFragment"
         android:label="list_medbox"
-        tools:layout="@layout/fragment_list_medicine"/>
+        tools:layout="@layout/fragment_list_medicine">
+        <action
+            android:id="@+id/action_list_medicine_to_detail_medicine"
+            app:destination="@id/detail_medicine"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/detail_medicine"
+        android:name="com.ufam.thaise.medbox.view.fragment.DetailMedicineFragment"
+        android:label="detail_medbox"
+        tools:layout="@layout/fragment_detail_medicine">
+    </fragment>
 </navigation>

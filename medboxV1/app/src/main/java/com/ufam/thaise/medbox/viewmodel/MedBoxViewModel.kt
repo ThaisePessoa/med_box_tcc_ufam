@@ -14,12 +14,15 @@ class MedBoxViewModel @Inject constructor(private val repository: MedBoxReposito
     val numberAmount = MutableLiveData<String?>()
     val saveSuccess = MutableLiveData<String?>()
     val disableAdd = MutableLiveData<Boolean>()
-
+    val deleteSuccess = MutableLiveData<String?>()
+    val toCheckList = MutableLiveData <Boolean>()
     init {
         toastMensage.value = null
         numberAmount.value = null
         saveSuccess.value = null
         disableAdd.value = false
+        deleteSuccess.value = null
+        toCheckList.value = false
     }
 
     fun TxtAmountAddMedBox(txtNumber: Int) {
@@ -53,7 +56,7 @@ class MedBoxViewModel @Inject constructor(private val repository: MedBoxReposito
 
         when (result) {
             is DataBaseResult.Success -> {
-                // Operação de salvamento bem-sucedida, faça o que for necessário
+                // Operação de salvamento bem-sucedida
                 // Exibir uma mensagem de sucesso, navegar para outra tela, etc.
                 saveSuccess.value = "Salvo com sucesso"
             }
@@ -74,7 +77,34 @@ class MedBoxViewModel @Inject constructor(private val repository: MedBoxReposito
        if(getAllMedBox().size >= 3){
            disableAdd.value = true
            toastMensageMedBox("Todos os compartimentos estão cheios")
-       }
+       }else
+           disableAdd.value = false
     }
 
+    suspend fun deleteMedBox(data: DataMedBox) {
+        val result =
+            repository.delete (data)
+
+        when (result) {
+            is DataBaseResult.Success -> {
+                // Operação de delete bem-sucedida
+                // Exibir uma mensagem de sucesso, navegar para outra tela, etc.
+                deleteSuccess.value = "Deletado com sucesso"
+                toCheckAdd()
+            }
+
+            is DataBaseResult.Error -> {
+                // Operação de delete falhou, trate o erro
+                toastMensageMedBox("${result.message}")
+            }
+        }
+    }
+
+    suspend fun toCheckListVoid() {
+        if(getAllMedBox().isEmpty()){
+            toCheckList.value = true
+            toastMensageMedBox("Você precisa cadastrar medicamento")
+        }else
+            toCheckList.value = false
+    }
 }

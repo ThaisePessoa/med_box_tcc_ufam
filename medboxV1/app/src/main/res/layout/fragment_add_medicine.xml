@@ -95,6 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:background="@color/primary"
-        android:text="@string/salvar"
+        android:text="@string/save"
         android:textColor="@color/white" />
 </androidx.appcompat.widget.LinearLayoutCompat>

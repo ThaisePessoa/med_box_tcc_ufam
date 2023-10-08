@@ -17,18 +17,29 @@ class MedBoxRepository @Inject constructor(private val medBoxDao: DadosDao) :
         }
     }
 
-    override suspend fun save(dataSave: DataMedBox): DataBaseResult {
+    override suspend fun save(data: DataMedBox): DataBaseResult {
         // Execute a inserção em uma coroutine com o contexto apropriado (Dispatchers.IO)
         // Execute a operação de inserção no banco de dados aqui
         return try {
             withContext(Dispatchers.IO) {
-                medBoxDao.saveMedBox(dataSave)
+                medBoxDao.saveMedBox(data)
                 DataBaseResult.Success
             }
         } catch (e: Exception) {
             DataBaseResult.Error(e.message ?: "Error")
         }
 
+    }
+
+    override suspend fun delete(data: DataMedBox): DataBaseResult {
+        return try {
+            withContext(Dispatchers.IO) {
+                medBoxDao.deleteMedBox(data)
+                DataBaseResult.Success
+            }
+        } catch (e: Exception) {
+            DataBaseResult.Error(e.message ?: "Error")
+        }
     }
 
 

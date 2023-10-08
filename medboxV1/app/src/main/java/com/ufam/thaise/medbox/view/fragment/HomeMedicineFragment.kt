@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeMedicineFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val mViewModel: MedBoxViewModel by viewModels()
@@ -39,6 +39,9 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             mViewModel.toCheckAdd()
         }
+        lifecycleScope.launch {
+            mViewModel.toCheckListVoid()
+        }
         binding.cardButtonAdd.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_add_medicine)
         }
@@ -57,7 +60,17 @@ class HomeFragment : Fragment() {
                binding.addLayoutBackgroud.setBackgroundResource(R.color.primary)
            }
         }
-
+        mViewModel.toCheckList.observe(viewLifecycleOwner) { disable ->
+            disable?.let {
+                if (disable){
+                    binding.cardButtonList.isClickable = false
+                    binding.listLayoutBackgroud.setBackgroundResource(R.color.disable)
+                }else {
+                    binding.cardButtonList.isClickable = true
+                    binding.listLayoutBackgroud.setBackgroundResource(R.color.primary)
+                }
+            }
+        }
         mViewModel.toastMensage.observe(viewLifecycleOwner) { mensage ->
             mensage?.let {
                 Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
@@ -68,5 +81,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mViewModel.disableAdd.removeObservers(viewLifecycleOwner)
+        mViewModel.toastMensage.removeObservers(viewLifecycleOwner)
     }
 }
