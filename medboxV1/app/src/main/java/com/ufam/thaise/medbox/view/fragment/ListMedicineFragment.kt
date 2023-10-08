@@ -55,7 +55,7 @@ class ListMedicineFragment:Fragment() {
         }
     }
     private fun onClick(dataMedBox: DataMedBox) {
-        data = dataMedBox
+        data  = dataMedBox
         findNavController().navigate(R.id.action_list_medicine_to_detail_medicine)
     }
 

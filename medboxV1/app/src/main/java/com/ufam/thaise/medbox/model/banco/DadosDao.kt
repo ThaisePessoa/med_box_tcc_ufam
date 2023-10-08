@@ -14,16 +14,17 @@ interface DadosDao {
 
     @Query("SELECT * FROM DataMedBox")
     fun getAll(): List<DataMedBox>
+
     @Query("DELETE FROM DataMedBox")
     fun deleteAll()
 
     @Insert
-    fun saveMedBox(vararg dadosUser: DataMedBox)
+    fun saveMedBox(vararg dados: DataMedBox)
 
     @Delete
-    fun deleteMedBox(vararg dadosUser: DataMedBox)
+    fun deleteMedBox(vararg dados: DataMedBox)
 
     @Update
-    fun editMedBox(dadosUser: DataMedBox)
+    fun editMedBox(dados: DataMedBox)
 
 }

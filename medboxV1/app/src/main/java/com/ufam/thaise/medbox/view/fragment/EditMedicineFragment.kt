@@ -11,17 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.ufam.thaise.medbox.Constant
 import com.ufam.thaise.medbox.R
-import com.ufam.thaise.medbox.databinding.FragmentDetailMedicineBinding
+import com.ufam.thaise.medbox.databinding.FragmentAddMedicineBinding
+import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.viewmodel.MedBoxViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DetailMedicineFragment : Fragment() {
+class EditMedicineFragment : Fragment() {
+
     private val mViewModel: MedBoxViewModel by viewModels()
-    private var _binding: FragmentDetailMedicineBinding? = null
+    private var _binding: FragmentAddMedicineBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,7 +30,8 @@ class DetailMedicineFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailMedicineBinding.inflate(inflater, container, false)
+
+        _binding = FragmentAddMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
         onConfigLayout()
         return root
@@ -38,32 +40,15 @@ class DetailMedicineFragment : Fragment() {
 
     private fun onConfigLayout() {
         onConfigLiveDataViewModel()
+        onConfigData()
+        binding.txtNumberAmount.text = "0"
         onClickToolbar()
-        onClickOpenMedBox()
-        onClickEdit()
-        onClickDelete()
+        onClickAmount()
+        onClickSave()
     }
 
-    private fun onClickOpenMedBox() {
-        binding.layoutMedicineCard.itemLayoutBackgroud.setBackgroundResource(R.color.primary)
-        binding.layoutMedicineCard.txtName.text = getString(R.string.open_medbox)
-        binding.layoutMedicineCard.cardButtonMedbox.setOnClickListener {
-            //chamar o firebase
-        }
-    }
+    private fun onConfigData() {
 
-    private fun onClickEdit() {
-        binding.cardButtonEdit.setOnClickListener {
-            findNavController().navigate(R.id.action_detail_medicine_to_edit_medicine)
-        }
-    }
-
-    private fun onClickDelete() {
-        binding.cardButtonDelete.setOnClickListener {
-            lifecycleScope.launch {
-                mViewModel.deleteMedBox()
-            }
-        }
     }
 
     private fun onConfigLiveDataViewModel() {
@@ -73,33 +58,57 @@ class DetailMedicineFragment : Fragment() {
                 mViewModel.toastMensageMedBox(null)
             }
         }
-        mViewModel.dataTemp.observe(viewLifecycleOwner){dataMedBox ->
-            dataMedBox?.let {
-                binding.txtMediceDetail.text = dataMedBox.name
-                binding.txtRemaining.text = getString(R.string.restante, dataMedBox.amount)
+        mViewModel.numberAmount.observe(viewLifecycleOwner) { number ->
+            number?.let {
+                binding.txtNumberAmount.text = number
             }
         }
-        mViewModel.deleteSuccess.observe(viewLifecycleOwner) { mensage ->
+        mViewModel.dataTemp.observe(viewLifecycleOwner){dataMedBox ->
+            dataMedBox?.let {
+                binding.fieldMedicamento.setText(dataMedBox.name)
+                binding.txtNumberAmount.text = dataMedBox.amount
+            }
+        }
+        mViewModel.editSuccess.observe(viewLifecycleOwner) { mensage ->
             mensage?.let {
                 Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
                 mViewModel.toastMensageMedBox(null)
                 findNavController().popBackStack()
             }
         }
-
     }
 
-
-
-    override fun onResume() {
-        super.onResume()
-        binding.txtMediceDetail.text = Constant.data?.name
-        binding.txtRemaining.text = getString(R.string.restante, Constant.data?.amount)
+    private fun onClickSave() {
+        binding.btnSave.setOnClickListener {
+            handleBtnEdit()
+        }
     }
+
+    private fun handleBtnEdit() {
+        val dataSave = DataMedBox(
+            name = binding.fieldMedicamento.text.toString(),
+            amount = binding.txtNumberAmount.text.toString()
+        )
+        lifecycleScope.launch {
+            mViewModel.editMedBox(dataSave)
+        }
+    }
+
+    private fun onClickAmount() {
+        binding.btnMinus.setOnClickListener {
+            val txtNumber = binding.txtNumberAmount.text.toString().toInt()
+            mViewModel.handleTxtAmountminus(txtNumber)
+        }
+        binding.btnAdd.setOnClickListener {
+            val txtNumber = binding.txtNumberAmount.text.toString().toInt()
+            mViewModel.TxtAmountAddMedBox(txtNumber)
+        }
+    }
+
     private fun onClickToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow)
-        binding.toolbar.title = getString(R.string.adicionar_medicamento_detail)
+        binding.toolbar.title = getString(R.string.adicionar_medicamento_add)
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -109,9 +118,8 @@ class DetailMedicineFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        mViewModel.deleteSuccess.removeObservers(viewLifecycleOwner)
         mViewModel.toastMensage.removeObservers(viewLifecycleOwner)
-        mViewModel.dataTemp.removeObservers(viewLifecycleOwner)
-
+        mViewModel.numberAmount.removeObservers(viewLifecycleOwner)
+        mViewModel.saveSuccess.removeObservers(viewLifecycleOwner)
     }
 }

@@ -5,6 +5,7 @@ import com.ufam.thaise.medbox.viewmodel.DataBaseResult
 
 interface MedBoxRepositoryInterface {
     suspend fun getAll(): List<DataMedBox>
-    suspend fun save(dataSave: DataMedBox): DataBaseResult
+    suspend fun save(data: DataMedBox): DataBaseResult
     suspend fun delete(data: DataMedBox): DataBaseResult
+    suspend fun edit(data: DataMedBox): DataBaseResult
 }

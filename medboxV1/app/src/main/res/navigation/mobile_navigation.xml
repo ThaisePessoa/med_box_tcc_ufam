@@ -49,5 +49,16 @@
         android:name="com.ufam.thaise.medbox.view.fragment.DetailMedicineFragment"
         android:label="detail_medbox"
         tools:layout="@layout/fragment_detail_medicine">
+        <action
+            android:id="@+id/action_detail_medicine_to_edit_medicine"
+            app:destination="@id/edit_medicine"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
+    <fragment android:id="@+id/edit_medicine"
+        android:name="com.ufam.thaise.medbox.view.fragment.EditMedicineFragment"
+        android:label="edit_medbox"
+        tools:layout="@layout/fragment_add_medicine"/>
 </navigation>

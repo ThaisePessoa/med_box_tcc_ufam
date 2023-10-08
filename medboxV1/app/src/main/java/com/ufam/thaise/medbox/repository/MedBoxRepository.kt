@@ -1,5 +1,6 @@
 package com.ufam.thaise.medbox.repository
 
+import android.util.Log
 import com.ufam.thaise.medbox.model.banco.DadosDao
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.viewmodel.DataBaseResult
@@ -35,6 +36,19 @@ class MedBoxRepository @Inject constructor(private val medBoxDao: DadosDao) :
         return try {
             withContext(Dispatchers.IO) {
                 medBoxDao.deleteMedBox(data)
+                DataBaseResult.Success
+            }
+        } catch (e: Exception) {
+            DataBaseResult.Error(e.message ?: "Error")
+        }
+    }
+
+    override suspend fun edit(data: DataMedBox): DataBaseResult {
+        // Execute a edita em uma coroutine com o contexto apropriado (Dispatchers.IO)
+        // Execute a operação de edita no banco de dados aqui
+        return try {
+            withContext(Dispatchers.IO) {
+                medBoxDao.editMedBox(data)
                 DataBaseResult.Success
             }
         } catch (e: Exception) {
