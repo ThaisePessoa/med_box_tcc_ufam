@@ -2,19 +2,20 @@ package com.ufam.thaise.medbox.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.repository.MedBoxRepositoryInterface
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
+@HiltViewModel
 class AddMedicineViewModel @Inject constructor (private val repository: MedBoxRepositoryInterface): ViewModel() {
     val toastMensage = MutableLiveData<String?>()
     val numberAmount = MutableLiveData<String?>()
+    val saveSuccess = MutableLiveData<String?>()
 
     init {
         toastMensage.value = null
         numberAmount.value =null
+        saveSuccess.value = null
     }
     fun handleTxtAmountAdd(txtNumber: Int) {
         if (txtNumber >= 64) {
@@ -33,21 +34,49 @@ class AddMedicineViewModel @Inject constructor (private val repository: MedBoxRe
     fun handleToastMensage(msg: String?){
         toastMensage.value = msg
     }
-
-    fun handleSave(dataSave: DataMedBox) {
-        dataSave.apply {
-            if (!name.isNullOrEmpty() && amount != "0"){
-                viewModelScope.launch {
-                    repository.save(dataSave)
+    suspend fun handleSave(dataSave: DataMedBox) {
+            val result: DataBaseResult
+            dataSave.apply {
+                if (!name.isNullOrEmpty() && amount != "0") {
+                    result = repository.save(dataSave)
+                } else {
+                    if (name.isNullOrEmpty()) {
+                        handleToastMensage("Preencha o nome")
+                    } else {
+                        handleToastMensage("A quantidade não pode ser 0")
+                    }
+                    result = DataBaseResult.Error("Erro ao salvas dados")
                 }
-            }else{
-                if (name.isNullOrEmpty()){
-                    handleToastMensage("Preencha o nome")
-                }else{
-                    handleToastMensage("A quantidade não pode ser 0")
+                when (result) {
+                    is DataBaseResult.Success -> {
+                        // Operação de salvamento bem-sucedida, faça o que for necessário
+                        // Exibir uma mensagem de sucesso, navegar para outra tela, etc.
+                        saveSuccess.value = "Salvo com sucesso"
+                    }
+
+                    is DataBaseResult.Error -> {
+                        // Operação de salvamento falhou, trate o erro
+                        handleToastMensage("Erro: ${result.message}")
+                    }
                 }
             }
-        }
+
     }
+//    fun handleSave(dataSave: DataMedBox) {
+//        dataSave.apply {
+//            if (!name.isNullOrEmpty() && amount != "0"){
+//                viewModelScope.launch {
+//                    repository.save(dataSave)
+//
+//                }
+//            }else{
+//                if (name.isNullOrEmpty()){
+//                    handleToastMensage("Preencha o nome")
+//                }else{
+//                    handleToastMensage("A quantidade não pode ser 0")
+//                }
+//            }
+//        }
+//    }
 
 }

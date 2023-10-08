@@ -9,12 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ufam.thaise.medbox.R
 import com.ufam.thaise.medbox.databinding.FragmentAddMedicineBinding
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.viewmodel.AddMedicineViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddMedicineFragment : Fragment() {
@@ -32,6 +34,20 @@ class AddMedicineFragment : Fragment() {
 //        mViewModel = ViewModelProvider(this).get(AddMedicineViewModel::class.java)
         _binding = FragmentAddMedicineBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        configLayoutClick()
+        return root
+    }
+
+
+    private fun configLayoutClick() {
+        onConfigLiveDataViewModel()
+        binding.txtNumberAmount.text = "0"
+        onClickToolbar()
+        onClickAmount()
+        onClickSave()
+    }
+
+    private fun onConfigLiveDataViewModel() {
         mViewModel.toastMensage.observe(viewLifecycleOwner) { mensage ->
             mensage?.let {
                 Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
@@ -43,16 +59,13 @@ class AddMedicineFragment : Fragment() {
                 binding.txtNumberAmount.text = number
             }
         }
-        configLayoutClick()
-        return root
-    }
-
-
-    private fun configLayoutClick() {
-        binding.txtNumberAmount.text = "0"
-        onClickToolbar()
-        onClickAmount()
-        onClickSave()
+        mViewModel.saveSuccess.observe(viewLifecycleOwner) { mensage ->
+            mensage?.let {
+                Toast.makeText(requireContext(), mensage, Toast.LENGTH_SHORT).show()
+                mViewModel.handleToastMensage(null)
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun onClickSave() {
@@ -77,15 +90,18 @@ class AddMedicineFragment : Fragment() {
             name = binding.fieldMedicamento.text.toString(),
             amount = binding.txtNumberAmount.text.toString()
         )
-        mViewModel.handleSave(dataSave)
+        lifecycleScope.launch {
+            mViewModel.handleSave(dataSave)
+        }
     }
 
     private fun onClickToolbar() {
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+//        val toolbar = binding.toolbar
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+//        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow)
         binding.toolbar.title = getString(R.string.adicionar_medicamento_add)
         binding.toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }

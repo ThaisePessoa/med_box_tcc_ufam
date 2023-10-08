@@ -6,6 +6,6 @@ import com.ufam.thaise.medbox.model.entity.DataMedBox
 
 @Database(entities = [DataMedBox::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
-    abstract fun userDao(): DadosDao
+    abstract fun medBoxDao(): DadosDao
 
 }

@@ -12,5 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item> <!-- Defina como false -->
+        <item name="windowNoTitle">true</item> <!-- Se você não quiser um título na barra de ação, defina como true -->
+
     </style>
 </resources>
