@@ -49,6 +49,10 @@ class DetailMedicineFragment : Fragment() {
         binding.layoutMedicineCard.txtName.text = getString(R.string.open_medbox)
         binding.layoutMedicineCard.cardButtonMedbox.setOnClickListener {
             //chamar o firebase
+            lifecycleScope.launch {
+                Constant.position?.let { compartimento -> mViewModel.openToMedBox(compartimento) }
+            }
+
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ufam.thaise.medbox.Constant
 import com.ufam.thaise.medbox.Constant.data
 import com.ufam.thaise.medbox.R
 import com.ufam.thaise.medbox.databinding.FragmentListMedicineBinding
@@ -54,8 +55,14 @@ class ListMedicineFragment:Fragment() {
             }
         }
     }
-    private fun onClick(dataMedBox: DataMedBox) {
+    private fun onClick(dataMedBox: DataMedBox, position: Int) {
         data  = dataMedBox
+        when (position){
+            0->Constant.position = "A"
+            1->Constant.position = "B"
+            2->Constant.position = "C"
+            else ->Constant.position = "D"
+        }
         findNavController().navigate(R.id.action_list_medicine_to_detail_medicine)
     }
 

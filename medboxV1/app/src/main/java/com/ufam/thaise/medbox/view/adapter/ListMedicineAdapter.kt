@@ -6,19 +6,19 @@ import com.ufam.thaise.medbox.R
 import com.ufam.thaise.medbox.databinding.ItemMedicineCardBinding
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 
-class ListMedicineAdapter(private val onClick: (codeCopy: DataMedBox) -> Unit) :
+class ListMedicineAdapter(private val onClick: (data: DataMedBox, position: Int) -> Unit) :
     RecyclerView.Adapter<ListMedicineAdapter.MedBoxViewHolder>() {
     private val list: MutableList<DataMedBox> = mutableListOf()
 
 
     inner class MedBoxViewHolder(private val binding: ItemMedicineCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: DataMedBox) {
+        fun bind(item: DataMedBox, position: Int) {
             if (!item.name.isNullOrEmpty()) {
                 binding.txtName.text = item.name
                 binding.itemLayoutBackgroud.setBackgroundResource(R.color.primary)
                 itemView.setOnClickListener {
-                    onClick(item)
+                    onClick(item, position)
                 }
             }
         }
@@ -34,7 +34,7 @@ class ListMedicineAdapter(private val onClick: (codeCopy: DataMedBox) -> Unit) :
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: MedBoxViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position)
     }
 
     @SuppressLint("NotifyDataSetChanged")

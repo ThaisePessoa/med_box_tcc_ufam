@@ -49,7 +49,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.2") // Verifique a versão mais recente
 
     // Dependência para o Kotlin coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")// Verifique a versão mais recente
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.0")// Verifique a versão mais recente
 
     // Kapt é necessário para processamento de anotações Room
     kapt("androidx.room:room-compiler:2.5.2") // Verifique a versão mais recente

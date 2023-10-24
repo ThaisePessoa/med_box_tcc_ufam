@@ -2,6 +2,7 @@ package com.ufam.thaise.medbox.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.FirebaseDatabase
 import com.ufam.thaise.medbox.Constant
 import com.ufam.thaise.medbox.model.entity.DataMedBox
 import com.ufam.thaise.medbox.repository.MedBoxRepositoryInterface
@@ -85,6 +86,13 @@ class MedBoxViewModel @Inject constructor(private val repository: MedBoxReposito
             toastMensageMedBox("Todos os compartimentos estão cheios")
         } else
             disableAdd.value = false
+    }
+    private val database = FirebaseDatabase.getInstance()
+    private val reference = database.getReference("fir-medbox-default-rtdb")
+
+    suspend fun openToMedBox(comp: String) {
+        reference.child("compartimento").setValue(comp)
+        toastMensageMedBox("compartimento ${comp} esta sendo aberto")
     }
 
     suspend fun deleteMedBox() {
