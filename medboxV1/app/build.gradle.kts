@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 kapt {
     correctErrorTypes = true
@@ -53,11 +54,13 @@ dependencies {
     // Kapt é necessário para processamento de anotações Room
     kapt("androidx.room:room-compiler:2.5.2") // Verifique a versão mais recente
     implementation("com.google.dagger:hilt-android:2.48")
-    kapt ("com.google.dagger:hilt-compiler:2.48")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
+    kapt("com.google.dagger:hilt-compiler:2.48")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 
-
-//Lottie Airbnb
+    //FireBase
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    //Lottie Airbnb
     implementation("com.airbnb.android:lottie:6.1.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
